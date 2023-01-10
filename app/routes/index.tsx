@@ -35,7 +35,7 @@ export default function Index() {
         className="top flex flex-col text-center px-8 pb-8 lg:pb-0 lg:flex-row lg:px-0 lg:text-left"
       >
         <div className="text-white flex-1 flex justify-center items-center flex-col pb-8">
-          <img className="w-96" src="images/flowers-type.png" alt="flowers" />
+          <img className="w-96" src="flowers-type.png" alt="flowers" />
           <h2 className="uppercase text-5xl">Coming this spring!</h2>
           <h3 className="text-center text-2xl mt-4 lg:mt-16 lg:px-32">
             Join our newsletter be the first to hear about our blooms and farm
