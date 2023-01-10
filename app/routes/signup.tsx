@@ -9,25 +9,22 @@ type NewsLetterFormType = {
 
 export function NewsLetterForm({ returnTo }: NewsLetterFormType) {
   const [email, setEmail] = useState("");
-
-  const { signup } = useLoaderData();
+  const { signup, signup_error } = useLoaderData();
 
   return (
     <Form
       method="post"
       action="/signup"
-      className="mt-16 relative w-full lg:w-96"
+      className="mt-8 lg:mt-16 relative w-full lg:w-96"
     >
       {signup ? (
-        signup === "success" ? (
-          <p className="text-center">Thanks for subscribing!</p>
-        ) : (
-          <p data-error className="text-center">
-            {signup}
-          </p>
-        )
+        <p className="text-center">Thanks for subscribing!</p>
+      ) : signup_error ? (
+        <p data-error className="text-center text-red-800">
+          Error signing up! Please try again later.
+        </p>
       ) : null}
-      {!signup ? (
+      {!signup && !signup_error ? (
         <>
           <input type="hidden" value={returnTo} name="returnTo" />
           <input
@@ -69,8 +66,34 @@ export async function action({ request }: ActionArgs) {
 
   const returnTo = (data.get("returnTo") as string) || "/";
   const email = data.get("email");
-  console.log(email);
-  session.flash("signup", "success");
+
+  try {
+    await fetch("https://api.sendgrid.com/v3/marketing/contacts", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${SENDGRID_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contacts: [{ email }],
+      }),
+    }).then(async (resp) => {
+      if (resp.ok) return;
+      else {
+        const json = await resp.json();
+        throw new Error(
+          `${resp.status} ${resp.statusText}: ${JSON.stringify(json)}`
+        );
+      }
+    });
+    session.flash("signup", "success");
+  } catch (e) {
+    console.error("Error signing up user: " + (e as Error).message);
+    console.log("----------EMAIL MESSAGE----------");
+    console.log("Email:   ", email);
+    console.log("---------------------------------");
+    session.flash("signup_error", "true");
+  }
   return redirect(returnTo, {
     headers: { "Set-Cookie": await commitSession(session) },
   });

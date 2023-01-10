@@ -12,14 +12,14 @@ export function ShopHeader() {
             target="_blank"
             aria-label="Facebook"
           >
-            <img className="inline mr-4 w-6" src="/images/facebook.svg" />
+            <img className="inline mr-4 w-6" src="/facebook.svg" />
           </a>
           <a
             href="https://www.instagram.com/foxfarmflowersofmaine/"
             target="_blank"
             aria-label="Instagram"
           >
-            <img className="inline w-6" src="/images/instagram.svg" />
+            <img className="inline w-6" src="/instagram.svg" />
           </a>
         </div>
         <Link
@@ -34,11 +34,13 @@ export function ShopHeader() {
         >
           About
         </Link>
-        <img
-          className="mr-16 relative top-6"
-          style={{ height: 160 }}
-          src="/ffflogo.jpg"
-        />
+        <a href="/" aria-label="Home">
+          <img
+            className="mr-16 relative top-6"
+            style={{ height: 160 }}
+            src="/ffflogo.webp"
+          />
+        </a>
         <Link
           className="mr-16 ease-in hover:text-gray-700 hover:underline"
           to="/contact"
@@ -55,7 +57,9 @@ export function ShopHeader() {
       <div className="h-24 lg:h-0">
         <div className="fixed lg:hidden w-full bg-white z-10">
           <div className="flex items-center justify-evenly">
-            <img style={{ height: 86 }} src="/ffflogo-mobile.jpg" />
+            <a href="/" aria-label="Home">
+              <img style={{ height: 86 }} src="/ffflogo-mobile.webp" />
+            </a>
             <button className="space-y-2" onClick={() => setShowMenu(true)}>
               <div className="w-8 h-0.5 bg-gray-600"></div>
               <div className="w-8 h-0.5 bg-gray-600"></div>

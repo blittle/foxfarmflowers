@@ -15,7 +15,10 @@ export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
   return json(
-    { signup: session.get("signup") },
+    {
+      signup: session.get("signup"),
+      signup_error: session.get("signup_error"),
+    },
     {
       headers: {
         "Set-Cookie": await commitSession(session),
@@ -41,18 +44,21 @@ export default function Shop() {
       </div>
       <img
         className="grid-image-left object-cover"
-        src="images/flowers-5.jpg"
+        src="images/flowers-5.webp"
         alt="flowers"
+        style={{ height: "100%", width: "100%" }}
       />
       <img
         className="grid-image-middle object-cover"
-        src="images/flowers-6.jpg"
+        src="images/flowers-6.webp"
         alt="flowers"
+        style={{ height: "100%", width: "100%" }}
       />
       <img
         className="grid-image-right object-cover"
-        src="images/flowers-7.jpg"
+        src="images/flowers-7.webp"
         alt="flowers"
+        style={{ height: "100%", width: "100%" }}
       />
     </div>
   );

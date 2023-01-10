@@ -9,7 +9,7 @@ const { getSession, commitSession, destroySession } =
       maxAge: 60,
       path: "/",
       sameSite: "lax",
-      secrets: ["someseeecret"],
+      secrets: [SESSION_SECRET],
       secure: true,
     },
   });
