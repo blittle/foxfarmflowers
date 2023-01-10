@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { NewsLetterForm } from "~/components/NewsLetterForm";
+import { json, LoaderArgs } from "@remix-run/cloudflare";
+import { NewsLetterForm } from "./signup";
+import { getSession, commitSession } from "../sessions";
 
 export function links() {
   return [
@@ -8,6 +9,19 @@ export function links() {
       href: "/css/home.css",
     },
   ];
+}
+
+export async function loader({ request }: LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  return json(
+    { signup: session.get("signup") },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
 }
 
 export default function Index() {
@@ -20,15 +34,14 @@ export default function Index() {
         <div className="text-white flex-1 flex just-center items-center flex-col pt-8">
           <img className="w-96" src="images/flowers-type.png" alt="flowers" />
           <h2 className="uppercase text-5xl">Coming this spring!</h2>
-          <h3 className="text-center text-2xl mt-16">
-            Join our newsletter be the first to hear
-            <br />
-            about our blooms and farm updates
+          <h3 className="text-center text-2xl mt-16 lg:px-32">
+            Join our newsletter be the first to hear about our blooms and farm
+            updates
           </h3>
-          <NewsLetterForm />
+          <NewsLetterForm returnTo="/" />
         </div>
         <img
-          className="object-cover w-5/12 hidden lg:inline"
+          className="object-cover w-4/12 hidden lg:inline"
           src="images/flowers-1.jpg"
           alt="flowers"
         />

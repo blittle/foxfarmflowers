@@ -1,4 +1,6 @@
-import { NewsLetterForm } from "~/components/NewsLetterForm";
+import { NewsLetterForm } from "./signup";
+import { getSession, commitSession } from "../sessions";
+import { json, LoaderArgs } from "@remix-run/cloudflare";
 
 export function links() {
   return [
@@ -7,6 +9,19 @@ export function links() {
       href: "/css/shop.css",
     },
   ];
+}
+
+export async function loader({ request }: LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  return json(
+    { signup: session.get("signup") },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
 }
 
 export default function Shop() {
@@ -21,7 +36,7 @@ export default function Shop() {
           updates
         </h2>
         <div className="flex justify-center">
-          <NewsLetterForm />
+          <NewsLetterForm returnTo="/shop" />
         </div>
       </div>
       <img

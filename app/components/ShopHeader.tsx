@@ -5,7 +5,23 @@ export function ShopHeader() {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <div className="hidden lg:flex justify-center items-end uppercase text-gray-500 font-semibold mb-24">
+      <div className="hidden lg:flex justify-center items-end uppercase text-gray-500 font-semibold mb-24 relative">
+        <div className="absolute left-0 top-8">
+          <a
+            href="https://www.facebook.com/foxfarmflowersofmaine"
+            target="_blank"
+            aria-label="Facebook"
+          >
+            <img className="inline mr-4 w-6" src="/images/facebook.svg" />
+          </a>
+          <a
+            href="https://www.instagram.com/foxfarmflowersofmaine/"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <img className="inline w-6" src="/images/instagram.svg" />
+          </a>
+        </div>
         <Link
           className="mr-16 ease-in hover:text-gray-700 hover:underline"
           to="/"
