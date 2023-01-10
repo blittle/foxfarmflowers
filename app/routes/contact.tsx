@@ -31,7 +31,11 @@ export default function Contact() {
 
   return (
     <div>
-      <img className="object-cover" src="images/flowers-8.webp" alt="flowers" />
+      <img
+        className="object-cover"
+        src="/raw-images/flowers-8.webp"
+        alt="flowers"
+      />
       <h1
         className="text-center text-4xl mt-16 font-normal"
         style={{ color: "#004530", fontFamily: "'Montagu Slab', serif" }}

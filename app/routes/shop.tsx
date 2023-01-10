@@ -44,19 +44,19 @@ export default function Shop() {
       </div>
       <img
         className="grid-image-left object-cover"
-        src="images/flowers-5.webp"
+        src="/raw-images/flowers-5.webp"
         alt="flowers"
         style={{ height: "100%", width: "100%" }}
       />
       <img
         className="grid-image-middle object-cover"
-        src="images/flowers-6.webp"
+        src="/raw-images/flowers-6.webp"
         alt="flowers"
         style={{ height: "100%", width: "100%" }}
       />
       <img
         className="grid-image-right object-cover"
-        src="images/flowers-7.webp"
+        src="/raw-images/flowers-7.webp"
         alt="flowers"
         style={{ height: "100%", width: "100%" }}
       />

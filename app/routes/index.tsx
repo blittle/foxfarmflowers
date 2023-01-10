@@ -45,28 +45,28 @@ export default function Index() {
         </div>
         <img
           className="object-cover w-4/12 hidden lg:inline"
-          src="images/flowers-1.webp"
+          src="/raw-images/flowers-1.webp"
           alt="flowers"
         />
       </div>
       <img
         className="flower-main object-cover lg:hidden h-full"
-        src="images/flowers-1.webp"
+        src="/raw-images/flowers-1.webp"
         alt="flowers"
       />
       <img
         className="middle-left object-cover h-full"
-        src="images/flowers-2.webp"
+        src="/raw-images/flowers-2.webp"
         alt="flowers"
       />
       <img
         className="middle-right object-cover h-full"
-        src="images/flowers-3.webp"
+        src="/raw-images/flowers-3.webp"
         alt="flowers"
       />
       <img
         className="bottom object-cover h-full"
-        src="images/flowers-4.webp"
+        src="/raw-images/flowers-4.webp"
         alt="flowers"
       />
     </div>
