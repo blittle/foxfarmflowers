@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
+import { Partytown } from "@builder.io/partytown/react";
 import styles from "./styles/app.css";
 import {
   Links,
@@ -44,6 +45,7 @@ export default function App() {
   return (
     <html lang="en">
       <head>
+        <Partytown forward={["dataLayer.push"]} />
         <Meta />
         <Links />
       </head>
@@ -55,6 +57,23 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <script
+          type="text/partytown"
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-SJ28M7GTM6"
+        ></script>
+        <script
+          type="text/partytown"
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-SJ28M7GTM6');
+            `,
+          }}
+        />
       </body>
     </html>
   );
