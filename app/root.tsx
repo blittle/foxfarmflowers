@@ -16,6 +16,19 @@ export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "Fox Farm Flowers",
   viewport: "width=device-width,initial-scale=1",
+  description: "Fresh, Local Flowers from North Berwick, Maine",
+
+  "og:type": "website",
+  "og:url": "https://www.foxfarmflowers.com",
+  "og:title": "Fox Farm Flowers",
+  "og:description": "Fresh, Local Flowers from North Berwick, Maine",
+  "og:image": "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
+
+  "twitter:card": "summary_large_image",
+  "twitter:url": "https://www.foxfarmflowers.com",
+  "twitter:title": "Fox Farm Flowers",
+  "twitter:description": "Fresh, Local Flowers from North Berwick, Maine",
+  "twitter:image": "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
 });
 
 export function links() {
