@@ -98,7 +98,7 @@ export default function About() {
 
       <div className="flex justify-center">
         <img
-          className="object-cover w-24 my-12"
+          className="object-cover w-16 my-12"
           src="/logo-flower.webp"
           alt="Photo of the farm"
         />

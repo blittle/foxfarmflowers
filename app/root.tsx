@@ -50,7 +50,7 @@ export function links() {
     },
     {
       rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz@16..144&family=Quicksand:wght@500;600&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz@16..144&family=Quicksand:wght@400;500;600&display=swap",
     },
   ];
 }
