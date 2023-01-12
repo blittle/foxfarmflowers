@@ -62,18 +62,18 @@ export default function About() {
 
       <p className="pt-4">
         I would love for you to join me as I seek to provide Maine-grown flowers
-        to our community. Join the newsletter to hear about when and what
+        to our community. Sign-up for the newsletter to hear about when and what
         flowers are in season, farm updates, and opportunities to visit Fox Farm
         Flowers in the future.
       </p>
 
-      <p className="pt-4">
+      <p className="pt-16">
         Fox Farm Flowers is located on a 6 acre farm in North Berwick, ME and
         seeks to provide regeneratively grown, fresh, long-lasting, local
         flowers to the community.
       </p>
 
-      <div className="grid grid-cols-2 grid-rows-2 mt-8 lg:mt-32 md:gap-4">
+      <div className="grid grid-cols-2 grid-rows-2 mt-8 lg:mt-24 md:gap-4">
         <img
           className="object-cover w-full h-full"
           src="/raw-images/farm-1.webp"
