@@ -33,7 +33,7 @@ export function NewsLetterForm({ returnTo }: NewsLetterFormType) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="bg-white rounded-sm h-4 py-6 px-8 w-full text-gray-600 border-gray-600 border-1"
+            className="bg-white rounded-sm h-4 py-6 px-8 w-full text-gray-600 border-gray-600 border"
           />
           <button
             className="absolute right-6 top-4"

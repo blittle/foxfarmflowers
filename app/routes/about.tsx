@@ -1,3 +1,23 @@
+import { json, LoaderArgs } from "@remix-run/cloudflare";
+import { commitSession, getSession } from "~/sessions";
+import { NewsLetterForm } from "./signup";
+
+export async function loader({ request }: LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  return json(
+    {
+      signup: session.get("signup"),
+      signup_error: session.get("signup_error"),
+    },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
+}
+
 export default function About() {
   return (
     <div className="text-center text-xl">
@@ -72,6 +92,13 @@ export default function About() {
         seeks to provide regeneratively grown, fresh, long-lasting, local
         flowers to the community.
       </p>
+
+      <div className="flex flex-col justify-center mt-8 items-center px-4">
+        <span className="font-bold -mb-2 lg:-mb-6">
+          Sign up to be the first to hear about our blooms and farm updates:
+        </span>
+        <NewsLetterForm returnTo="/about" />
+      </div>
 
       <div className="grid grid-cols-2 grid-rows-2 mt-8 lg:mt-24 md:gap-4">
         <img
