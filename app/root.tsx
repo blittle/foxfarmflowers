@@ -10,6 +10,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { ShopHeader } from "./components/ShopHeader";
+import { ShopFooter } from "./components/ShopFooter";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -53,6 +54,7 @@ export default function App() {
         <div className="container mx-auto">
           <ShopHeader />
           <Outlet />
+          <ShopFooter />
         </div>
         <ScrollRestoration />
         <Scripts />
