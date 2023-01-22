@@ -36,12 +36,14 @@ export default function Index() {
       >
         <div className="text-white flex-1 flex justify-center items-center flex-col pb-8">
           <img className="w-96" src="flowers-type.png" alt="flowers" />
-          <h2 className="uppercase text-5xl">Coming this spring!</h2>
-          <h3 className="text-center text-2xl mt-4 lg:mt-16 lg:px-32">
+          <h2 className="uppercase text-4xl lg:text-5xl mt-2">
+            Coming this spring!
+          </h2>
+          <h3 className="text-center text-lg lg:text-2xl mt-4 lg:mt-16 lg:px-32 leading-6">
             Join our newsletter be the first to hear about our blooms and farm
             updates
           </h3>
-          <NewsLetterForm returnTo="/" />
+          <NewsLetterForm returnTo="/" dark={true} />
         </div>
         <img
           className="object-cover w-4/12 hidden lg:inline"

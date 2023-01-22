@@ -112,31 +112,6 @@ export default function Contact() {
           </div>
         </Form>
       )}
-      <div
-        style={{
-          backgroundColor: "#e79dab",
-          fontFamily: "'Montagu Slab', serif",
-        }}
-        className="p-16 text-white mt-16 text-3xl text-center font-normal"
-      >
-        Follow along! <br />
-        <div className="mt-4">
-          <a
-            href="https://www.facebook.com/foxfarmflowersofmaine"
-            target="_blank"
-            aria-label="Facebook"
-          >
-            <img className="inline mr-4" src="/facebook.svg" />
-          </a>
-          <a
-            href="https://www.instagram.com/foxfarmflowersofmaine/"
-            target="_blank"
-            aria-label="Instagram"
-          >
-            <img className="inline" src="/instagram.svg" />
-          </a>
-        </div>
-      </div>
     </div>
   );
 }
