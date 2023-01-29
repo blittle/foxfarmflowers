@@ -35,13 +35,13 @@ export function ShopHeader() {
         >
           About
         </Link>
-        <a href="/" aria-label="Home">
+        <Link to="/" aria-label="Home">
           <img
             className="mr-16 relative top-4"
             style={{ height: 108 }}
             src="/ffflogo.webp"
           />
-        </a>
+        </Link>
         <Link
           className="mr-16 ease-in hover:text-gray-700 hover:underline"
           to="/contact"
@@ -66,9 +66,9 @@ export function ShopHeader() {
             <div className="w-8 h-0.5 bg-gray-600"></div>
           </button>
           <div className="flex items-center justify-center w-full pt-4">
-            <a href="/" aria-label="Home" className="mr-8">
+            <Link to="/" aria-label="Home" className="mr-8">
               <img style={{ height: 66 }} src="/ffflogo-mobile.webp" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

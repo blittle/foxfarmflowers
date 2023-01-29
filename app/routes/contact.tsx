@@ -32,8 +32,8 @@ export default function Contact() {
   return (
     <div>
       <img
-        className="object-cover"
-        src="/raw-images/flowers-8.webp"
+        className="w-full"
+        src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/IMG_0142_1024x274.jpg?v=1675027632"
         alt="flowers"
       />
       <h1

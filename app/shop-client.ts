@@ -17,9 +17,6 @@ export async function query(
   query: string,
   variables?: Record<string, unknown>
 ) {
-  console.log(shop.getStorefrontApiUrl());
-  console.log(shop.getPublicTokenHeaders());
-
   const response = await fetch(shop.getStorefrontApiUrl(), {
     body: graphqlRequestBody(query, variables),
     headers: shop.getPublicTokenHeaders(),

@@ -2,6 +2,7 @@ import { json, LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { Partytown } from "@builder.io/partytown/react";
 import styles from "./styles/app.css";
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -82,14 +83,14 @@ export default function App() {
         <Links />
       </head>
       <body style={{ fontFamily: "'Quicksand', sans-serif" }}>
-        <div
+        {/* <div
           className="w-full text-center text-white py-2"
           style={{ backgroundColor: "#dca0ab" }}
         >
-          <a className="hover:underline" href="/shop">
+          <Link className="hover:underline" to="/shop">
             Flower CSA Preorder Now Open!
-          </a>
-        </div>
+          </Link>
+        </div> */}
         <div className="fox-container mx-auto">
           <ShopHeader />
           <Outlet />

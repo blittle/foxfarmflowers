@@ -2,8 +2,16 @@ import { NewsLetterForm } from "./signup";
 import { getSession, commitSession } from "../sessions";
 import { json, LoaderArgs } from "@remix-run/cloudflare";
 import { query } from "~/shop-client";
-import { useLoaderData } from "@remix-run/react";
-import { flattenConnection, Image } from "@shopify/storefront-kit-react";
+import { Link, useLoaderData } from "@remix-run/react";
+import {
+  flattenConnection,
+  ProductPrice,
+  Image,
+} from "@shopify/storefront-kit-react";
+import type {
+  Image as ImageType,
+  Product,
+} from "@shopify/storefront-kit-react/storefront-api-types";
 
 export function links() {
   return [
@@ -33,15 +41,21 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function Shop() {
-  const { products } = useLoaderData();
-  console.log(products);
+  const { products } = useLoaderData() as { products: Array<Product> };
   return (
     <div className="grid-container">
       {products.map((product) => (
-        <div key={product.id}>
-          <Image data={product.variants.nodes[0].image} />
-          <h2>{product.title}</h2>
-        </div>
+        <Link key={product.id} to={`/products/${product.handle}`}>
+          <Image data={product.variants.nodes[0].image} widths={[300, 500]} />
+          <h2 className="uppercase text-center mt-2 font-bold">
+            {product.title}
+          </h2>
+          <ProductPrice
+            data={product}
+            className="text-center"
+            variantId={product.variants.nodes[0].id}
+          />
+        </Link>
       ))}
     </div>
   );

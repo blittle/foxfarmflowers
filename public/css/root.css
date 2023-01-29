@@ -38,3 +38,7 @@
 .bg-fox-green {
   background-color: #004530;
 }
+
+.product-description p {
+  margin-bottom: 24px;
+}
