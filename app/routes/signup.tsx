@@ -6,17 +6,30 @@ import { getSession, commitSession } from "../sessions";
 type NewsLetterFormType = {
   returnTo: string;
   dark?: boolean;
+  className?: string;
+  style?: Record<string, string>;
 };
 
-export function NewsLetterForm({ returnTo, dark = false }: NewsLetterFormType) {
+export function NewsLetterForm({
+  className,
+  returnTo,
+  dark = false,
+  style = {},
+}: NewsLetterFormType) {
   const [email, setEmail] = useState("");
-  const { signup, signup_error } = useLoaderData();
+  const { signup, signup_error } = useLoaderData() || {};
 
   return (
     <Form
       method="post"
       action="/signup"
-      className="mt-8 lg:mt-16 relative w-full lg:w-96"
+      style={style}
+      className={
+        className ??
+        `mt-8 lg:mt-16 relative w-full lg:w-96 bg-white rounded-sm ${
+          dark ? "border-white" : "border-gray-600"
+        } border`
+      }
     >
       {signup ? (
         <p className="text-center">Thanks for subscribing!</p>
@@ -34,9 +47,7 @@ export function NewsLetterForm({ returnTo, dark = false }: NewsLetterFormType) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className={`bg-white rounded-sm h-4 py-6 px-8 w-full text-gray-600 ${
-              dark ? "border-white" : "border-gray-600"
-            }  border`}
+            className={`h-4 py-6 px-8 w-full text-gray-600 bg-transparent`}
           />
           <button
             className="absolute right-6 top-4"

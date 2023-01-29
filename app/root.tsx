@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/cloudflare";
+import { json, LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { Partytown } from "@builder.io/partytown/react";
 import styles from "./styles/app.css";
 import {
@@ -11,6 +11,7 @@ import {
 } from "@remix-run/react";
 import { ShopHeader } from "./components/ShopHeader";
 import { ShopFooter } from "./components/ShopFooter";
+import { commitSession, getSession } from "./sessions";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -39,6 +40,7 @@ export function links() {
       href: "/favicon.png",
     },
     { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: "/css/root.css" },
     {
       rel: "preconnect",
       href: "https://fonts.googleapis.com",
@@ -55,6 +57,22 @@ export function links() {
   ];
 }
 
+export async function loader({ request }: LoaderArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  return json(
+    {
+      signup: session.get("signup"),
+      signup_error: session.get("signup_error"),
+    },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
+}
+
 export default function App() {
   return (
     <html lang="en">
@@ -64,11 +82,19 @@ export default function App() {
         <Links />
       </head>
       <body style={{ fontFamily: "'Quicksand', sans-serif" }}>
-        <div className="container mx-auto">
+        <div
+          className="w-full text-center text-white py-2"
+          style={{ backgroundColor: "#dca0ab" }}
+        >
+          <a className="hover:underline" href="/shop">
+            Flower CSA Preorder Now Open!
+          </a>
+        </div>
+        <div className="fox-container mx-auto">
           <ShopHeader />
           <Outlet />
-          <ShopFooter />
         </div>
+        <ShopFooter />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

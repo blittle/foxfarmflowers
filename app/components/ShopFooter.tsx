@@ -1,3 +1,5 @@
+import { NewsLetterForm } from "~/routes/signup";
+
 export function ShopFooter() {
   return (
     <>
@@ -35,6 +37,15 @@ export function ShopFooter() {
               src="/instagram-white.svg"
             />
           </a>
+        </div>
+        <div className="text-center">Join the Newsletter!</div>
+        <div className="flex justify-center">
+          <NewsLetterForm
+            returnTo="/"
+            dark={true}
+            style={{ backgroundColor: "#e2f3eb" }}
+            className={`mt-2 mb-4 relative w-full lg:w-96 rounded-sm`}
+          />
         </div>
         <div>
           Fox Farm Flowers LLC ⓒ2023 • North Berwick, Maine •{" "}

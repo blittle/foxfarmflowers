@@ -6,7 +6,7 @@ export function ShopHeader() {
 
   return (
     <>
-      <div className="hidden lg:flex justify-center items-end uppercase text-gray-500 font-semibold mb-24 relative">
+      <div className="hidden lg:flex justify-center items-end uppercase text-gray-500 font-semibold mb-12 mt-2 relative">
         <div className="absolute left-0 top-8">
           <a
             href="https://www.facebook.com/foxfarmflowersofmaine"
@@ -37,8 +37,8 @@ export function ShopHeader() {
         </Link>
         <a href="/" aria-label="Home">
           <img
-            className="mr-16 relative top-6"
-            style={{ height: 160 }}
+            className="mr-16 relative top-4"
+            style={{ height: 108 }}
             src="/ffflogo.webp"
           />
         </a>

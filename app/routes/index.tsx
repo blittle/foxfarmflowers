@@ -29,48 +29,81 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Index() {
   return (
-    <div className="grid-container">
-      <div
-        style={{ backgroundColor: "#e79dab" }}
-        className="top flex flex-col text-center px-8 pb-8 lg:pb-0 lg:flex-row lg:px-0 lg:text-left"
-      >
-        <div className="text-white flex-1 flex justify-center items-center flex-col pb-8">
-          <img className="w-96" src="flowers-type.png" alt="flowers" />
-          <h2 className="uppercase text-4xl lg:text-5xl mt-2">
-            Coming this spring!
-          </h2>
-          <h3 className="text-center text-lg lg:text-2xl mt-4 lg:mt-16 lg:px-32 leading-6">
-            Join our newsletter be the first to hear about our blooms and farm
-            updates
-          </h3>
-          <NewsLetterForm returnTo="/" dark={true} />
-        </div>
+    <div>
+      <img
+        className="w-full hidden lg:block"
+        style={{ height: 279 }}
+        src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/Home-Page-Collage_1024x278.jpg?v=1675020208"
+      />
+      <div className="text-center">
+        <h1 className="montagu text-4xl lg:text-5xl fox-green mt-4 lg:mt-12 mb-2 lg:mb-4">
+          Welcome to <br className="lg:hidden" /> Fox Farm Flowers
+        </h1>
+        <h2 className="uppercase lg:text-xl lg:font-bold">
+          A cut flower farm in North Berwick, Maine
+        </h2>
+      </div>
+      <div className="relative mt-12">
         <img
-          className="object-cover w-4/12 hidden lg:inline"
-          src="/raw-images/flowers-1.webp"
-          alt="flowers"
+          className="w-full hidden lg:block"
+          style={{ height: 682 }}
+          src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/Web_version_1024x682.jpg?v=1675020340"
+        />
+        <img
+          className="w-full lg:hidden"
+          src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/Mobile_800x800.jpg?v=1675020210"
+        />
+        <div
+          className="absolute bottom-24 left-16 text-center hidden lg:block"
+          style={{ width: 300 }}
+        >
+          <div className="montagu text-5xl fox-green" style={{ fontSize: 42 }}>
+            2023 Bouquet CSA Preorder is Now Open!
+          </div>
+          <a
+            className="rounded mt-4 py-2 bg-fox-green text-white block"
+            href="/shop"
+          >
+            Shop Now
+          </a>
+        </div>
+        <div
+          className="absolute bottom-16 left-8 text-center lg:hidden"
+          style={{ width: 190 }}
+        >
+          <div className="montagu text-5xl fox-green" style={{ fontSize: 26 }}>
+            2023 Bouquet CSA Preorder is Now Open!
+          </div>
+          <a
+            className="rounded mt-4 py-2 bg-fox-green text-white block"
+            href="/shop"
+          >
+            Shop Now
+          </a>
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center mt-8 items-center px-4 lg:text-xl">
+        <div className="font-bold -mb-2 lg:-mb-6 text-center montagu">
+          Join our newsletter to be the first to hear about our blooms and farm
+          updates:
+        </div>
+        <NewsLetterForm returnTo="/" />
+      </div>
+      <div className="mt-12">
+        <img
+          className="w-1/3 inline-block hidden lg:inline"
+          src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/PXL_20220909_154405194_341x341.jpg?v=1675020208"
+        />
+        <img
+          className="w-1/2 lg:w-1/3 inline-block"
+          src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/PXL_20221209_141838497.MP_341x341.jpg?v=1675020206"
+        />
+        <img
+          className="w-1/2 lg:w-1/3 inline-block"
+          src="https://cdn.shopify.com/s/files/1/0712/2911/2602/files/PXL_20230120_162546212.PORTRAIT_341x341.jpg?v=1675020211"
         />
       </div>
-      <img
-        className="flower-main object-cover lg:hidden h-full"
-        src="/raw-images/flowers-1.webp"
-        alt="flowers"
-      />
-      <img
-        className="middle-left object-cover h-full"
-        src="/raw-images/flowers-2.webp"
-        alt="flowers"
-      />
-      <img
-        className="middle-right object-cover h-full"
-        src="/raw-images/flowers-3.webp"
-        alt="flowers"
-      />
-      <img
-        className="bottom object-cover h-full"
-        src="/raw-images/flowers-4.webp"
-        alt="flowers"
-      />
     </div>
   );
 }

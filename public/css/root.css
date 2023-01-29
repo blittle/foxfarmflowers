@@ -1,0 +1,40 @@
+.fox-container {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .fox-container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+  .fox-container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .fox-container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .fox-container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1536px) {
+  .fox-container {
+    max-width: 1024px;
+  }
+}
+
+.montagu {
+  font-family: "Montagu Slab", serif;
+}
+
+.fox-green {
+  color: #004530;
+}
+
+.bg-fox-green {
+  background-color: #004530;
+}
