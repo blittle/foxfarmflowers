@@ -2,7 +2,6 @@ import { json, LoaderArgs, MetaFunction } from "@remix-run/cloudflare";
 import { Partytown } from "@builder.io/partytown/react";
 import styles from "./styles/app.css";
 import {
-  Link,
   Links,
   LiveReload,
   Meta,
@@ -13,6 +12,9 @@ import {
 import { ShopHeader } from "./components/ShopHeader";
 import { ShopFooter } from "./components/ShopFooter";
 import { commitSession, getSession } from "./sessions";
+import { CartProvider, ShopifyProvider } from "@shopify/storefront-kit-react";
+import { config } from "./shop-client";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -75,6 +77,7 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function App() {
+  const [showCart, setShowCart] = useState(false);
   return (
     <html lang="en">
       <head>
@@ -91,10 +94,14 @@ export default function App() {
             Flower CSA Preorder Now Open!
           </Link>
         </div> */}
-        <div className="fox-container mx-auto">
-          <ShopHeader />
-          <Outlet />
-        </div>
+        <ShopifyProvider shopifyConfig={config}>
+          <CartProvider onLineAdd={() => setShowCart(true)}>
+            <div className="fox-container mx-auto">
+              <ShopHeader showCart={showCart} setShowCart={setShowCart} />
+              <Outlet />
+            </div>
+          </CartProvider>
+        </ShopifyProvider>
         <ShopFooter />
         <ScrollRestoration />
         <Scripts />

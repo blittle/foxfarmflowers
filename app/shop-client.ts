@@ -1,10 +1,22 @@
 import { createStorefrontClient } from "@shopify/storefront-kit-react";
 
-const shop = createStorefrontClient({
-  publicStorefrontToken: "d49f8dc3b2d17b446bcea2fe0651aaba",
+const accessToken = "d49f8dc3b2d17b446bcea2fe0651aaba";
+
+export const config = {
+  publicStorefrontToken: accessToken,
+  storefrontToken: accessToken,
   storeDomain: "https://fox-farm-flowers-of-maine.myshopify.com",
-  storefrontApiVersion: "2022-10",
-});
+  storefrontApiVersion: "2023-01",
+  country: {
+    isoCode: "US",
+  },
+  language: {
+    isoCode: "EN",
+  },
+  locale: "EN-US",
+};
+
+const shop = createStorefrontClient(config);
 
 function graphqlRequestBody(query: string, variables?: Record<string, any>) {
   return JSON.stringify({

@@ -17,11 +17,13 @@
   }
 }
 @media (min-width: 1280px) {
+  .cart-container,
   .fox-container {
     max-width: 1024px;
   }
 }
 @media (min-width: 1536px) {
+  .cart-container,
   .fox-container {
     max-width: 1024px;
   }

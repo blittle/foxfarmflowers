@@ -1,11 +1,21 @@
 import { Link } from "@remix-run/react";
+import { useCart } from "@shopify/storefront-kit-react";
 import { useEffect, useState } from "react";
+import Cart from "./Cart";
 
-export function ShopHeader() {
+export function ShopHeader({
+  showCart,
+  setShowCart,
+}: {
+  showCart: boolean;
+  setShowCart: (cartStatus: boolean) => void;
+}) {
   const [showMenu, setShowMenu] = useState(false);
+  const { totalQuantity, status } = useCart();
 
   return (
     <>
+      <Cart showCart={showCart} setShowCart={setShowCart} />
       <div className="hidden lg:flex justify-center items-end uppercase text-gray-500 font-semibold mb-12 mt-2 relative">
         <div className="absolute left-0 top-8">
           <a
@@ -23,6 +33,17 @@ export function ShopHeader() {
             <img className="inline w-6" src="/instagram.svg" />
           </a>
         </div>
+        <button
+          className="absolute right-0 top-8"
+          onClick={() => setShowCart(true)}
+        >
+          <img src="/cart.svg" className="w-6" />
+          {status !== "uninitialized" && status !== "fetching" ? (
+            <div className="bg-fox-green text-white w-4 h-4 rounded-full absolute text-sm leading-none top-4 right-0">
+              {totalQuantity}
+            </div>
+          ) : null}
+        </button>
         <Link
           className="mr-16 ease-in hover:text-gray-700 hover:underline"
           to="/"
@@ -70,11 +91,22 @@ export function ShopHeader() {
               <img style={{ height: 66 }} src="/ffflogo-mobile.webp" />
             </Link>
           </div>
+          <button
+            className="absolute left-6 top-8"
+            onClick={() => setShowCart(true)}
+          >
+            <img src="/cart.svg" className="w-6" />
+            {status !== "uninitialized" && status !== "fetching" ? (
+              <div className="bg-fox-green text-white w-4 h-4 rounded-full absolute text-sm leading-none top-4 right-0">
+                {totalQuantity}
+              </div>
+            ) : null}
+          </button>
         </div>
       </div>
       {
         <div
-          className="fixed w-full top-0 z-10 bg-white text-center"
+          className="fixed w-full left-0 top-0 z-10 bg-white text-center"
           style={{
             top: showMenu ? 0 : "-100%",
             transition: "200ms ease-in top",
