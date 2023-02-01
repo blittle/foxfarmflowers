@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { NewsLetterForm } from "~/routes/signup";
 
 export function ShopFooter() {
@@ -49,7 +50,7 @@ export function ShopFooter() {
         </div>
         <div>
           Fox Farm Flowers LLC ⓒ2023 • North Berwick, Maine •{" "}
-          <a href="/privacy.html">Privacy Policy</a>
+          <Link to="/policies">Policies</Link>
         </div>
       </div>
     </>
