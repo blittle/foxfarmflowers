@@ -39,7 +39,7 @@ export default function Index() {
         <h1 className="montagu text-4xl lg:text-5xl fox-green mt-4 lg:mt-12 mb-2 lg:mb-4">
           Welcome to <br className="lg:hidden" /> Fox Farm Flowers
         </h1>
-        <h2 className="uppercase lg:text-xl lg:font-bold">
+        <h2 className="uppercase lg:text-xl lg:font-bold px-4">
           A cut flower farm in North Berwick, Maine
         </h2>
       </div>

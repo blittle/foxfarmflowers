@@ -79,7 +79,7 @@ export function ShopHeader({
       <div className="h-24 lg:h-0">
         <div className="fixed lg:hidden w-full bg-white z-10 relative">
           <button
-            className="space-y-2 mr-4 mt-4 absolute right-4 top-6"
+            className="space-y-2 absolute left-6 top-8"
             onClick={() => setShowMenu(true)}
           >
             <div className="w-8 h-0.5 bg-gray-600"></div>
@@ -87,12 +87,12 @@ export function ShopHeader({
             <div className="w-8 h-0.5 bg-gray-600"></div>
           </button>
           <div className="flex items-center justify-center w-full pt-4">
-            <Link to="/" aria-label="Home" className="mr-8">
+            <Link to="/" aria-label="Home">
               <img style={{ height: 66 }} src="/ffflogo-mobile.webp" />
             </Link>
           </div>
           <button
-            className="absolute left-6 top-8"
+            className="absolute right-4 top-6"
             onClick={() => setShowCart(true)}
           >
             <img src="/cart.svg" className="w-6" />
