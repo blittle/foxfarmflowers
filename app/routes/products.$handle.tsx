@@ -61,7 +61,7 @@ export default function ProductDetailPage() {
           />
           <FaqItem
             title="Where do I pick up? What is the time window for pick up?"
-            details={`Pick up will always be available at the farm in North Berwick, but additional pick up spots will be added if there are enough shareholders in those areas. Pick up is on Tuesdays, with the time window still to be determined. Leave a comment at checkout if you have a location for us to consider.`}
+            details={`Pick up will always be available at the farm in North Berwick, but additional pick up spots will be added if there are enough shareholders in those areas. Pick up is on Tuesdays, with the time window still to be determined.`}
           />
           <FaqItem
             title="Is delivery available?"
