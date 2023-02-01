@@ -29,10 +29,9 @@ export default function Cart({
 
   useEffect(() => {
     setIsGift(
-      attributes &&
-        attributes.length &&
-        attributes[0].key === "isGift" &&
-        attributes[0].value === "true"
+      attributes && attributes.length
+        ? attributes[0].key === "isGift" && attributes[0].value === "true"
+        : false
     );
 
     setRecipientName(

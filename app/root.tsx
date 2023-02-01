@@ -96,7 +96,10 @@ export default function App() {
           </Link>
         </div>
         <ShopifyProvider shopifyConfig={config}>
-          <CartProvider onLineAdd={() => setShowCart(true)}>
+          <CartProvider
+            onLineAdd={() => setShowCart(true)}
+            onCreateComplete={() => setShowCart(true)}
+          >
             <div className="fox-container mx-auto">
               <ShopHeader showCart={showCart} setShowCart={setShowCart} />
               <Outlet />
