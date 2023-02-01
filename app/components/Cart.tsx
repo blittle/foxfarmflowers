@@ -6,7 +6,7 @@ import {
   CartCheckoutButton,
   ShopPayButton,
 } from "@shopify/storefront-kit-react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Cart({
   showCart,
@@ -15,11 +15,91 @@ export default function Cart({
   showCart: boolean;
   setShowCart: (cartStatus: boolean) => void;
 }) {
-  const { lines, linesRemove, cost } = useCart();
+  const shopPayRef = useRef();
+  let {
+    attributes = [],
+    lines,
+    linesRemove,
+    cost,
+    cartAttributesUpdate,
+    checkoutUrl,
+  } = useCart();
+
+  const [isGift, setIsGift] = useState(false);
+
+  useEffect(() => {
+    setIsGift(
+      attributes &&
+        attributes.length &&
+        attributes[0].key === "isGift" &&
+        attributes[0].value === "true"
+    );
+
+    setRecipientName(
+      (
+        attributes.find((attribute) => attribute.key === "recipientName") || {
+          value: "",
+        }
+      ).value
+    );
+
+    setRecipientEmail(
+      (
+        attributes.find((attribute) => attribute.key === "recipientEmail") || {
+          value: "",
+        }
+      ).value
+    );
+
+    setRecipientPhone(
+      (
+        attributes.find((attribute) => attribute.key === "recipientPhone") || {
+          value: "",
+        }
+      ).value
+    );
+  }, [attributes]) && useState();
+
+  function updateGiftStatus() {
+    const newGiftState = !isGift;
+    setIsGift(!newGiftState);
+
+    if (newGiftState) {
+      cartAttributesUpdate([{ key: "isGift", value: "true" }]);
+    } else {
+      cartAttributesUpdate([{ key: "isGift", value: "false" }]);
+    }
+  }
+
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientNameValid, setRecipientNameValid] = useState(true);
+
+  const [recipientPhone, setRecipientPhone] = useState("");
+  const [recipientPhoneValid, setRecipientPhoneValid] = useState(true);
+
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientEmailValid, setRecipientEmailValid] = useState(true);
+
+  const checkoutEnabled =
+    !isGift || (recipientEmail && recipientName && recipientPhone);
+
+  useEffect(() => {
+    if (shopPayRef.current) {
+      setTimeout(() => {
+        const shopPayButton =
+          shopPayRef.current.querySelector("shop-pay-button");
+        if (shopPayButton) {
+          if (checkoutEnabled) shopPayButton.removeAttribute("disabled");
+          else shopPayButton.setAttribute("disabled", true);
+        }
+      }, 100);
+    }
+  }, [attributes, checkoutEnabled]);
+
   return (
     <>
       <div
-        className="fixed w-full h-full max-w-lg right-0 top-0 z-20 py-12 flex justify-center bg-slate-50"
+        className="fixed w-full h-full max-w-lg right-0 top-0 z-20 py-4 md:py-12 flex justify-center bg-slate-50"
         style={{
           right: showCart ? 0 : "-100%",
           transition: "200ms ease-in right",
@@ -32,7 +112,7 @@ export default function Cart({
           >
             X
           </button>
-          <div className="px-12 h-full">
+          <div className="px-4 md:px-12 h-full">
             <div className="mb-8 font-bold text-lg">Cart</div>
             {lines && lines.length ? (
               <div className="flex flex-col h-full">
@@ -70,12 +150,132 @@ export default function Cart({
                   ))}
                 </div>
                 <hr className="my-4" />{" "}
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isGift}
+                    onChange={updateGiftStatus}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                  <span className="ml-3 text-sm font-medium">
+                    Is this a gift?
+                  </span>
+                </label>
+                {isGift && (
+                  <div>
+                    <p className="my-4 text-xs">
+                      Fresh local flowers are a fantastic gift! Provide us with
+                      your recipient's name and contact information, and we will
+                      send you an email with a printable (or email-able) card
+                      for you to pass along. Don't worry about us ruining any
+                      surprises...we won't contact your recipient with reminders
+                      and details UNTIL it gets close to bouquet pick up time.
+                    </p>
+                    <div className="flex flex-col">
+                      <input
+                        type="text"
+                        required
+                        placeholder="Recipient name"
+                        value={recipientName}
+                        onChange={(e) => setRecipientName(e.target.value)}
+                        onBlur={() => {
+                          attributes = attributes.filter(
+                            (attribute) => attribute.key !== "recipientName"
+                          );
+                          if (recipientName) {
+                            attributes?.push({
+                              key: "recipientName",
+                              value: recipientName,
+                            });
+                            setRecipientNameValid(true);
+                          } else {
+                            setRecipientNameValid(false);
+                          }
+                          cartAttributesUpdate(attributes);
+                        }}
+                        className={`rounded py-2 px-4 border-2 ${
+                          !recipientNameValid
+                            ? "border-red-600 placeholder-red-600"
+                            : ""
+                        }`}
+                      />
+                      <input
+                        type="email"
+                        required
+                        placeholder="Recipient email"
+                        value={recipientEmail}
+                        onChange={(e) => setRecipientEmail(e.target.value)}
+                        onBlur={() => {
+                          attributes = attributes.filter(
+                            (attribute) => attribute.key !== "recipientEmail"
+                          );
+                          if (recipientEmail) {
+                            attributes.push({
+                              key: "recipientEmail",
+                              value: recipientEmail,
+                            });
+                            setRecipientEmailValid(true);
+                          } else {
+                            setRecipientEmailValid(false);
+                          }
+
+                          cartAttributesUpdate(attributes);
+                        }}
+                        className={`rounded py-2 px-4 my-4 border-2 ${
+                          !recipientEmailValid
+                            ? "border-red-600 placeholder-red-600"
+                            : ""
+                        }`}
+                      />
+                      <input
+                        type="phone"
+                        required
+                        placeholder="Recipient phone"
+                        value={recipientPhone}
+                        onChange={(e) => setRecipientPhone(e.target.value)}
+                        onBlur={() => {
+                          attributes = attributes.filter(
+                            (attribute) => attribute.key !== "recipientPhone"
+                          );
+                          if (recipientPhone) {
+                            attributes.push({
+                              key: "recipientPhone",
+                              value: recipientPhone,
+                            });
+                            setRecipientPhoneValid(true);
+                          } else {
+                            setRecipientPhoneValid(false);
+                          }
+
+                          cartAttributesUpdate(attributes);
+                        }}
+                        className={`rounded py-2 px-4 border-2 ${
+                          !recipientPhoneValid
+                            ? "border-red-600 placeholder-red-600"
+                            : ""
+                        }`}
+                      />
+                    </div>
+                  </div>
+                )}
+                <hr className="my-4" />{" "}
                 <div className="flex mb-6">
                   <div className="flex-1 font-bold text-lg">Subtotal</div>
                   <div>${cost?.totalAmount?.amount}</div>
                 </div>
                 <div className="flex justify-center mb-4">
-                  <CartCheckoutButton
+                  <button
+                    onClick={(e) => {
+                      if (!checkoutEnabled) {
+                        if (!recipientEmail) setRecipientEmailValid(false);
+                        if (!recipientName) setRecipientNameValid(false);
+                        if (!recipientPhone) setRecipientPhoneValid(false);
+                        e.preventDefault();
+                      } else {
+                        window.location.href = checkoutUrl;
+                      }
+                    }}
                     className="bg-fox-green text-white"
                     style={{
                       paddingLeft: "12px",
@@ -86,9 +286,9 @@ export default function Cart({
                     }}
                   >
                     Continue to checkout
-                  </CartCheckoutButton>
+                  </button>
                 </div>
-                <div className="flex justify-center mb-12">
+                <div className="flex justify-center mb-12" ref={shopPayRef}>
                   <ShopPayButton
                     variantIdsAndQuantities={lines.map((line) => ({
                       id: line?.merchandise?.id,
