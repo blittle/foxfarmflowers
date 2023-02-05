@@ -272,6 +272,7 @@ export default function Cart({
                         if (!recipientPhone) setRecipientPhoneValid(false);
                         e.preventDefault();
                       } else {
+                        fbq("track", "InitiateCheckout");
                         window.location.href = checkoutUrl;
                       }
                     }}
