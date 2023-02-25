@@ -82,15 +82,23 @@ export async function action({ request }: ActionArgs) {
   const email = data.get("email");
 
   try {
-    await fetch("https://api.sendgrid.com/v3/marketing/contacts", {
-      method: "PUT",
+    const apiKey = MAILCHIMP_API_KEY;
+    const listId = "47d8fd726e";
+
+    const endpoint = `https://us10.api.mailchimp.com/3.0/lists/${listId}/members`;
+
+    const data = {
+      email_address: email,
+      status: "subscribed",
+    };
+
+    await fetch(endpoint, {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${SENDGRID_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        contacts: [{ email }],
-      }),
+      body: JSON.stringify(data),
     }).then(async (resp) => {
       if (resp.ok) return;
       else {
