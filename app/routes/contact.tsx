@@ -126,26 +126,29 @@ export async function action({ request }: ActionArgs) {
   const comment = data.get("comment");
 
   try {
-    await fetch("https://api.sendgrid.com/v3/mail/send", {
+    await fetch("https://mandrillapp.com/api/1.0/messages/send", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${SENDGRID_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        template_id: "d-dd72664a6765465780421e3d6adc9f9f",
-        personalizations: [
-          {
-            to: [{ email: adminEmail }],
-            dynamic_template_data: {
-              name,
-              phone,
-              comment,
-              email,
-            },
-          },
-        ],
-        from: { email: adminEmail },
+        key: MANDRILL_API_KEY,
+        message: {
+          html: "",
+          text:
+            "name: " +
+            name +
+            "\nemail: " +
+            email +
+            "\ncomment: " +
+            comment +
+            "\nphone: " +
+            phone,
+          subject: "foxfarmflowers.com request",
+          from_email: "no-reply@foxfarmflowers.com",
+          from_name: name,
+          to: [{ email: adminEmail, name: "Tearsa Little" }],
+        },
       }),
     }).then(async (resp) => {
       if (resp.ok) return;
