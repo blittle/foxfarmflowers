@@ -22,6 +22,8 @@ export default function ProductDetailPage() {
   const { product } = useLoaderData();
   const title = product.title.substring(0, product.title.indexOf("("));
   const variantId = product.variants.nodes[0].id;
+  const available = product.variants.nodes[0].availableForSale;
+
   return (
     <>
       <ProductProvider data={product} initialVariantId={variantId}>
@@ -36,10 +38,13 @@ export default function ProductDetailPage() {
             <ProductPrice data={product} variantId={variantId} />
             <AddToCartButton
               type="button"
+              disabled={!available}
               data={variantId}
-              className="bg-fox-green text-white rounded py-2 px-12 mt-4 lg:mt-8"
+              className={`bg-fox-green text-white rounded py-2 px-12 mt-4 lg:mt-8 ${
+                !available && "opacity-50"
+              }`}
             >
-              Add to cart
+              {available ? "Add to cart" : "Sold out!"}
             </AddToCartButton>
             <div
               className="product-description mt-8"
