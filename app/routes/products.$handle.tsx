@@ -20,7 +20,11 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function ProductDetailPage() {
   const { product } = useLoaderData();
-  const title = product.title.substring(0, product.title.indexOf("("));
+  const fullTitle = product.title;
+  const isCSA = fullTitle.includes("CSA");
+  const title = isCSA
+    ? product.title.substring(0, product.title.indexOf("("))
+    : fullTitle;
   const variantId = product.variants.nodes[0].id;
   const available = product.variants.nodes[0].availableForSale;
 
@@ -52,7 +56,7 @@ export default function ProductDetailPage() {
             />
           </div>
         </div>
-        <CSAFaq />
+        {isCSA ? <CSAFaq /> : null}
       </ProductProvider>
     </>
   );
