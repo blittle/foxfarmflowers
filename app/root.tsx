@@ -105,8 +105,8 @@ export default function App() {
           className="w-full text-center text-white py-2"
           style={{ backgroundColor: "#dca0ab" }}
         >
-          <Link className="hover:underline" to="/shop">
-            Flower CSA Preorder Now Open!
+          <Link className="hover:underline" to="/products/mothers-day-bouquets">
+            Mother's Day Bouquets Now Available!
           </Link>
         </div>
         <ShopifyProvider shopifyConfig={config}>

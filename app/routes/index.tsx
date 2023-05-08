@@ -58,11 +58,11 @@ export default function Index() {
           style={{ width: 300 }}
         >
           <div className="montagu text-5xl fox-green" style={{ fontSize: 42 }}>
-            2023 Bouquet CSA Preorder is Now Open!
+            Mother's Day Bouquets are now available!
           </div>
           <a
             className="rounded mt-4 py-2 bg-fox-green text-white block"
-            href="/shop"
+            href="/products/mothers-day-bouquets"
           >
             Shop Now
           </a>
