@@ -34,7 +34,7 @@ function AddToCartVariant({
     <AddToCartButton
       type="button"
       disabled={!available}
-      data={variantId}
+      variantId={variantId}
       className={`bg-fox-green text-white rounded py-2 px-12 mt-4 lg:mt-8 ${
         !available && "opacity-50"
       }`}
