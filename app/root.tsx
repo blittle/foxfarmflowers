@@ -101,14 +101,14 @@ export default function App() {
         />
       </head>
       <body style={{ fontFamily: "'Quicksand', sans-serif" }}>
-        <div
+        {/* <div
           className="w-full text-center text-white py-2"
           style={{ backgroundColor: "#dca0ab" }}
         >
           <Link className="hover:underline" to="/products/mothers-day-bouquets">
             Mother's Day Bouquets Now Available!
           </Link>
-        </div>
+        </div> */}
         <ShopifyProvider shopifyConfig={config}>
           <CartProvider
             onLineAdd={(e) => {
