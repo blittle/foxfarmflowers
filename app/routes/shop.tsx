@@ -44,19 +44,26 @@ export default function Shop() {
   const { products } = useLoaderData() as { products: Array<Product> };
   return (
     <div className="grid-container">
-      {products.map((product) => (
-        <Link key={product.id} to={`/products/${product.handle}`}>
-          <Image data={product.variants.nodes[0].image} widths={[300, 500]} />
-          <h2 className="uppercase text-center mt-2 font-bold">
-            {product.title}
-          </h2>
-          <ProductPrice
-            data={product}
-            className="text-center"
-            variantId={product.variants.nodes[0].id}
-          />
-        </Link>
-      ))}
+      {products
+        .sort((a, b) => {
+          if (a.title === "Seasonal Bouquet") return -1;
+          if (b.title === "Seasonal Bouquet") return 1;
+
+          return a.totalInventory > b.totalInventory ? -1 : 1;
+        })
+        .map((product) => (
+          <Link key={product.id} to={`/products/${product.handle}`}>
+            <Image data={product.variants.nodes[0].image} widths={[300, 500]} />
+            <h2 className="uppercase text-center mt-2 font-bold">
+              {product.title}
+            </h2>
+            <ProductPrice
+              data={product}
+              className="text-center"
+              variantId={product.variants.nodes[0].id}
+            />
+          </Link>
+        ))}
     </div>
   );
 }
@@ -69,6 +76,7 @@ const ALL_PRODUCTS = `
         title
         publishedAt
         handle
+        totalInventory
         variants(first: 1) {
           nodes {
             id
