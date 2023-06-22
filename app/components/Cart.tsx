@@ -132,7 +132,10 @@ export default function Cart({
                         </h3>
                         {line?.merchandise?.selectedOptions?.length ? (
                           <h3 className="">
-                            {line?.merchandise?.selectedOptions[0]?.value}
+                            {line?.merchandise?.selectedOptions[0]?.value !==
+                            "Default Title"
+                              ? line?.merchandise?.selectedOptions[0]?.value
+                              : ""}
                           </h3>
                         ) : null}
                         <div className="flex">

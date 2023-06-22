@@ -483,7 +483,7 @@ export default function ProductDetailPage() {
               />
             ) : null}
             <AddToCartVariant
-              variantId={variantId}
+              variantId={selectedVariantId}
               product={product}
               pickupDate={pickupDate}
               pickupCartProperty={pickupCartProperty}
