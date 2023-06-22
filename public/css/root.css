@@ -37,6 +37,15 @@
   color: #004530;
 }
 
+.border-fox-green {
+  border-color: #004530;
+}
+
+.ring-fox-green {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: #004530;
+}
+
 .bg-fox-green {
   background-color: #004530;
 }
