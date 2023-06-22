@@ -10,8 +10,12 @@ import {
 } from "@shopify/storefront-kit-react";
 import { RadioGroup } from "@headlessui/react";
 import CSAFaq from "~/components/CSAFaq";
-import { Metaobject, Product } from "@shopify/hydrogen/storefront-api-types";
-import React, { ChangeEventHandler, useRef, useState } from "react";
+import {
+  Metaobject,
+  Product,
+  ProductVariant,
+} from "@shopify/hydrogen/storefront-api-types";
+import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
 
 import { format, isValid, parse } from "date-fns";
 import FocusTrap from "focus-trap-react";
@@ -44,11 +48,15 @@ function AddToCartVariant({
   product,
   label,
   disabled,
+  pickupDate,
+  pickupCartProperty,
 }: {
   variantId: string;
   product: Product;
   label?: string;
   disabled?: boolean;
+  pickupDate?: Date;
+  pickupCartProperty?: string;
 }) {
   const variant = product.variants.nodes.find(
     (variant) => variant.id === variantId
@@ -64,6 +72,16 @@ function AddToCartVariant({
         type="button"
         disabled={disabled ?? !available}
         variantId={variantId}
+        attributes={
+          pickupDate
+            ? [
+                {
+                  key: "pickupDate",
+                  value: pickupCartProperty!,
+                },
+              ]
+            : undefined
+        }
         className={`bg-fox-green text-white rounded py-2 px-12 mt-4 lg:mt-8 ${
           (disabled ?? !available) && "opacity-50"
         }`}
@@ -147,10 +165,16 @@ function DatePickerDialog({
   pickupDates,
   pickupDate,
   setPickupDate,
+  setPickupCartProperty,
+  selectedVariant,
 }: {
   pickupDates: Metaobject;
   pickupDate: Date | undefined;
   setPickupDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setPickupCartProperty: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
+  selectedVariant?: ProductVariant;
 }) {
   const today = new Date();
   const currentDayOfTheWeek = today.getDay();
@@ -204,7 +228,6 @@ function DatePickerDialog({
     dayIndex++;
   }
 
-  const [pickupTime, setPickupTime] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [isPopperOpen, setIsPopperOpen] = useState(false);
 
@@ -231,8 +254,22 @@ function DatePickerDialog({
     setInputValue(e.currentTarget.value);
     const date = parse(e.currentTarget.value, "y-MM-dd", new Date());
     if (isValid(date)) {
+      const dayAvailable = availablePickupDates.find(
+        (d) => d.start.getDate() === date.getDate()
+      );
+
+      setPickupCartProperty(
+        dayAvailable
+          ? format(date, "MMMM dd, yyyy") +
+              ", " +
+              format(dayAvailable.start, "h:mm a") +
+              " - " +
+              format(dayAvailable.end, "h:mm a")
+          : undefined
+      );
       setPickupDate(date);
     } else {
+      setPickupCartProperty(undefined);
       setPickupDate(undefined);
     }
   };
@@ -242,6 +279,21 @@ function DatePickerDialog({
   };
 
   const handleDaySelect = (date?: Date) => {
+    if (date) {
+      const dayAvailable = availablePickupDates.find(
+        (d) => d.start.getDate() === date.getDate()
+      );
+
+      setPickupCartProperty(
+        dayAvailable
+          ? format(date, "MMMM dd, yyyy") +
+              ", " +
+              format(dayAvailable.start, "h:mm a") +
+              " - " +
+              format(dayAvailable.end, "h:mm a")
+          : undefined
+      );
+    } else setPickupCartProperty(undefined);
     setPickupDate(date);
     if (date) {
       setInputValue(format(date, "y-MM-dd"));
@@ -251,9 +303,18 @@ function DatePickerDialog({
     }
   };
 
-  return (
-    <div className="flex">
+  if (!availablePickupDates.length)
+    return (
       <div>
+        Unavailable this week in {selectedVariant?.title}. Please select a
+        different location, check back next week, or{" "}
+        <Link to="/contact">contact us</Link> with any specific requests.
+      </div>
+    );
+
+  return (
+    <div className="lg:flex">
+      <div className="mb-6 lg:mb-0">
         <label htmlFor="pickup-date" className="font-medium block mb-2">
           Pickup date
         </label>
@@ -266,7 +327,7 @@ function DatePickerDialog({
             value={inputValue}
             onChange={handleInputChange}
             onSelect={handleButtonClick}
-            className="rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="lg:w-auto w-full pr-8 rounded-md border-0 lg:py-1.5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
           <button
             ref={buttonRef}
@@ -324,7 +385,7 @@ function DatePickerDialog({
       </div>
 
       {pickupDate ? (
-        <div className="ml-6">
+        <div className="lg:ml-6">
           <label htmlFor="pickup-time" className="font-medium block mb-2">
             Pickup time
           </label>
@@ -343,17 +404,28 @@ function SelectDateTime({
   selectedVariantId,
   pickupDate,
   setPickupDate,
+  setPickupCartProperty,
+  product,
 }: {
   metaobjects: Metaobject[];
   selectedVariantId: string;
   pickupDate: Date | undefined;
   setPickupDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setPickupCartProperty: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
+  product: Product;
 }) {
   const pickupDates = metaobjects.find((obj) =>
     obj.fields.find(
       (field) => field.key === "product" && field.value === selectedVariantId
     )
   );
+
+  const selectedVariant = product.variants.nodes.find(
+    (variant) => variant.id === selectedVariantId
+  );
+
   return (
     <div className="mt-6">
       {pickupDates ? (
@@ -361,6 +433,8 @@ function SelectDateTime({
           pickupDates={pickupDates}
           pickupDate={pickupDate}
           setPickupDate={setPickupDate}
+          selectedVariant={selectedVariant}
+          setPickupCartProperty={setPickupCartProperty}
         />
       ) : null}
     </div>
@@ -379,6 +453,7 @@ export default function ProductDetailPage() {
 
   const [selectedVariantId, setSelectedVariantId] = useState(variantId);
   const [pickupDate, setPickupDate] = useState<Date>();
+  const [pickupCartProperty, setPickupCartProperty] = useState<string>();
 
   return (
     <>
@@ -403,27 +478,17 @@ export default function ProductDetailPage() {
                 metaobjects={metaobjects}
                 pickupDate={pickupDate}
                 setPickupDate={setPickupDate}
+                product={product}
+                setPickupCartProperty={setPickupCartProperty}
               />
             ) : null}
             <AddToCartVariant
               variantId={variantId}
               product={product}
+              pickupDate={pickupDate}
+              pickupCartProperty={pickupCartProperty}
               disabled={!isCSA ? !pickupDate : undefined}
             />
-            {/* <AddToCartVariant
-              isCSA={isCSA}
-              metaobjects={metaobjects}
-              variant={product.variants.nodes[0]}
-              label={!isCSA ? "Pick-up in North Berwick, ME" : undefined}
-            />
-            {multipleVariants ? (
-              <AddToCartVariant
-                isCSA={isCSA}
-                metaobjects={metaobjects}
-                variant={product.variants.nodes[1]}
-                label={"Pick-up in Dover, NH"}
-              />
-            ) : null} */}
             <div
               className="product-description mt-8"
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}

@@ -21,23 +21,52 @@ export const meta: V2_MetaFunction = () => {
   return [
     { charset: "utf-8" },
     { title: "Fox Farm Flowers" },
-    { viewport: "width=device-width,initial-scale=1" },
-    { description: "Fresh, Local Flowers from North Berwick, Maine" },
-
+    { name: "viewport", content: "width=device-width,initial-scale=1" },
     {
-      "og:type": "website",
-      "og:url": "https://www.foxfarmflowers.com",
-      "og:title": "Fox Farm Flowers",
-      "og:description": "Fresh, Local Flowers from North Berwick, Maine",
-      "og:image": "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
+      name: "description",
+      content: "Fresh, Local Flowers from North Berwick, Maine",
     },
 
     {
-      "twitter:card": "summary_large_image",
-      "twitter:url": "https://www.foxfarmflowers.com",
-      "twitter:title": "Fox Farm Flowers",
-      "twitter:description": "Fresh, Local Flowers from North Berwick, Maine",
-      "twitter:image": "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
+      name: "og:type",
+      content: "website",
+    },
+    {
+      property: "og:url",
+      content: "https://www.foxfarmflowers.com",
+    },
+    {
+      property: "og:title",
+      content: "Fox Farm Flowers",
+    },
+    {
+      property: "og:description",
+      content: "Fresh, Local Flowers from North Berwick, Maine",
+    },
+    {
+      property: "og:image",
+      content: "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
+    },
+
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+    {
+      name: "twitter:url",
+      content: "https://www.foxfarmflowers.com",
+    },
+    {
+      name: "twitter:title",
+      content: "Fox Farm Flowers",
+    },
+    {
+      name: "twitter:description",
+      content: "Fresh, Local Flowers from North Berwick, Maine",
+    },
+    {
+      name: "twitter:image",
+      content: "https://www.foxfarmflowers.com/raw-images/tearsa.webp",
     },
   ];
 };
