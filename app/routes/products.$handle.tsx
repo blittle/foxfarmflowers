@@ -241,7 +241,6 @@ function DatePickerDialog({
       const dayAvailable = availablePickupDates.find(
         (date) => date.start.getDay() === day.getDay()
       );
-      debugger;
 
       if (
         !dayAvailable ||
