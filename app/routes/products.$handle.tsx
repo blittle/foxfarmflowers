@@ -15,7 +15,7 @@ import {
   Product,
   ProductVariant,
 } from "@shopify/hydrogen/storefront-api-types";
-import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
+import React, { ChangeEventHandler, useRef, useState } from "react";
 
 import {
   format,
@@ -193,7 +193,16 @@ function DatePickerDialog({
   selectedVariant?: ProductVariant;
 }) {
   const today = new Date();
-  const currentDayOfTheWeek = today.getDay();
+
+  const unavailableDates = JSON.parse(
+    (
+      pickupDates.fields.find((field) => field.key === "unavailable") || {
+        value: "[]",
+      }
+    ).value || "[]"
+  ).map((date: string) => date.split("-").map((s) => parseInt(s, 10))) as Array<
+    number[]
+  >;
 
   const availablePickupDates = pickupDates.fields
     .filter((field) => {
@@ -232,8 +241,17 @@ function DatePickerDialog({
       const dayAvailable = availablePickupDates.find(
         (date) => date.start.getDay() === day.getDay()
       );
+      debugger;
 
-      if (!dayAvailable) {
+      if (
+        !dayAvailable ||
+        unavailableDates.find(
+          (date) =>
+            date[0] === day.getFullYear() &&
+            date[1] === day.getMonth() + 1 &&
+            date[2] === day.getDate()
+        )
+      ) {
         disabled.push(day);
       }
     } else {
