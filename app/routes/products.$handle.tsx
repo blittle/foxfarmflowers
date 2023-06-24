@@ -197,7 +197,7 @@ function DatePickerDialog({
 
   const availablePickupDates = pickupDates.fields
     .filter((field) => {
-      return field.key !== "product";
+      return field.key !== "product" && field.key !== "unavailable";
     })
     .map((field) => {
       const [start, end] = JSON.parse(field.value!);
