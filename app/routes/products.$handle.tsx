@@ -17,7 +17,13 @@ import {
 } from "@shopify/hydrogen/storefront-api-types";
 import React, { ChangeEventHandler, useEffect, useRef, useState } from "react";
 
-import { format, isValid, parse } from "date-fns";
+import {
+  format,
+  isValid,
+  parse,
+  differenceInCalendarMonths,
+  differenceInCalendarDays,
+} from "date-fns";
 import FocusTrap from "focus-trap-react";
 import { DayPicker } from "react-day-picker";
 import { usePopper } from "react-popper";
@@ -96,10 +102,16 @@ function SelectProductVariant({
   selectedVariantId,
   setSelectedVariantId,
   product,
+  setPickupDate,
+  setPickupCartProperty,
 }: {
   selectedVariantId: string;
   setSelectedVariantId: React.Dispatch<React.SetStateAction<string>>;
   product: Product;
+  setPickupDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setPickupCartProperty: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
 }) {
   const multipleVariants = product.variants.nodes.length > 1;
 
@@ -116,7 +128,11 @@ function SelectProductVariant({
         value={deliveryMethods.find(
           (method) => method.id === selectedVariantId
         )}
-        onChange={(variant) => setSelectedVariantId(variant.id)}
+        onChange={(variant) => {
+          setSelectedVariantId(variant.id);
+          setPickupCartProperty(undefined);
+          setPickupDate(undefined);
+        }}
       >
         <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
           {deliveryMethods.map((deliveryMethod) => (
@@ -181,13 +197,7 @@ function DatePickerDialog({
 
   const availablePickupDates = pickupDates.fields
     .filter((field) => {
-      if (field.key !== "product") {
-        if (field.value) {
-          const [start] = JSON.parse(field.value);
-          return new Date(start).getDay() > currentDayOfTheWeek;
-        }
-      }
-      return false;
+      return field.key !== "product";
     })
     .map((field) => {
       const [start, end] = JSON.parse(field.value!);
@@ -215,13 +225,18 @@ function DatePickerDialog({
 
   while (true) {
     const day = new Date(today.getFullYear(), today.getMonth(), dayIndex);
-    if (day.getMonth() !== today.getMonth()) break;
+    if (Math.abs(differenceInCalendarMonths(day, today)) >= 2) break;
 
-    const dayAvailable = availablePickupDates.find(
-      (date) => date.start.getDate() === day.getDate()
-    );
+    const dayDiff = differenceInCalendarDays(day, today);
+    if (dayDiff <= 14 && dayDiff >= 0) {
+      const dayAvailable = availablePickupDates.find(
+        (date) => date.start.getDay() === day.getDay()
+      );
 
-    if (!dayAvailable) {
+      if (!dayAvailable) {
+        disabled.push(day);
+      }
+    } else {
       disabled.push(day);
     }
 
@@ -242,7 +257,7 @@ function DatePickerDialog({
   });
 
   const availableTimes = availablePickupDates.find(
-    (date) => date.start.getDate() === pickupDate?.getDate()
+    (date) => date.start.getDay() === pickupDate?.getDay()
   ) || { start: today, end: today };
 
   const closePopper = () => {
@@ -255,7 +270,7 @@ function DatePickerDialog({
     const date = parse(e.currentTarget.value, "y-MM-dd", new Date());
     if (isValid(date)) {
       const dayAvailable = availablePickupDates.find(
-        (d) => d.start.getDate() === date.getDate()
+        (d) => d.start.getDay() === date.getDay()
       );
 
       setPickupCartProperty(
@@ -281,7 +296,7 @@ function DatePickerDialog({
   const handleDaySelect = (date?: Date) => {
     if (date) {
       const dayAvailable = availablePickupDates.find(
-        (d) => d.start.getDate() === date.getDate()
+        (d) => d.start.getDay() === date.getDay()
       );
 
       setPickupCartProperty(
@@ -376,7 +391,8 @@ function DatePickerDialog({
                 }}
                 onSelect={handleDaySelect}
                 defaultMonth={today}
-                disableNavigation
+                fromMonth={today}
+                toMonth={new Date(today.getFullYear(), today.getMonth() + 1)}
                 disabled={disabled}
               />
             </div>
@@ -470,6 +486,8 @@ export default function ProductDetailPage() {
             <SelectProductVariant
               selectedVariantId={selectedVariantId}
               setSelectedVariantId={setSelectedVariantId}
+              setPickupDate={setPickupDate}
+              setPickupCartProperty={setPickupCartProperty}
               product={product}
             />
             {!isCSA ? (
@@ -477,8 +495,8 @@ export default function ProductDetailPage() {
                 selectedVariantId={selectedVariantId}
                 metaobjects={metaobjects}
                 pickupDate={pickupDate}
-                setPickupDate={setPickupDate}
                 product={product}
+                setPickupDate={setPickupDate}
                 setPickupCartProperty={setPickupCartProperty}
               />
             ) : null}
